@@ -8,7 +8,7 @@ import java.util.Objects;
  *
  * @author Evandro
  */
-public class Seler implements Serializable{
+public class Seller implements Serializable{
     private Integer id;
     private String name;
     private String email;
@@ -16,11 +16,11 @@ public class Seler implements Serializable{
     private Double baseSalary;
     private Department department;
 
-    public Seler() {
+    public Seller() {
 
     }
 
-    public Seler(Integer id, String name, String email, Date birthDate, Double baseSalary, Department department) {
+    public Seller(Integer id, String name, String email, Date birthDate, Double baseSalary, Department department) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -95,7 +95,7 @@ public class Seler implements Serializable{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Seler other = (Seler) obj;
+        final Seller other = (Seller) obj;
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }

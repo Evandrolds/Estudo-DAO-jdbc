@@ -4,7 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import model.enttities.Department;
-import model.enttities.Seler;
+import model.enttities.Seller;
 
 /**
  *
@@ -16,7 +16,7 @@ public class Application {
 
         Department obj = new Department(1, "Books");
 
-        Seler seler = new Seler();
+        Seller seler = new Seller();
         seler.setId(21);
         seler.setName("Bob");
         seler.setEmail("Bob.seler@hotmail.com");

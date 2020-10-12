@@ -1,8 +1,9 @@
 package application;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import medel.dao.Daofactory;
+import medel.dao.SellerDao;
 import model.enttities.Department;
 import model.enttities.Seller;
 
@@ -10,7 +11,7 @@ import model.enttities.Seller;
  *
  * @author Evandro
  */
-public class Application {
+public class Program {
 
     public static void main(String[] args) throws ParseException {
 
@@ -24,5 +25,6 @@ public class Application {
         seler.setBaseSalary(2500.00);
         seler.setDepartment(obj);
         System.out.println(seler);
+        SellerDao sellerDao = Daofactory.createSellerDao();
     }
 }

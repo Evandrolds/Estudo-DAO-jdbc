@@ -23,7 +23,7 @@ public class SellerDaoJDBC implements SellerDao {
     }
 
     public SellerDaoJDBC() {
-       
+
     }
 
     @Override
@@ -72,7 +72,6 @@ public class SellerDaoJDBC implements SellerDao {
 
             bd.BD.coloseResulset(rs);
             bd.BD.coloseStatement(pst);
-            bd.BD.closeConnection();
 
         }
 

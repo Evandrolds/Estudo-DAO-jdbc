@@ -6,9 +6,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import medel.dao.DepartmentDao;
 
 import medel.dao.SellerDao;
 import model.enttities.Department;
@@ -121,6 +125,37 @@ public static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         seller.setBirthDate(rs.getDate("BirthDate"));
         seller.setDepartment(dep);
         return seller;
+    }
+
+    @Override
+    public List<Seller> findByDemarment(Department department) {
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        try{
+        pst = con.prepareStatement("SELECT seller.*,department.Name as DepName " +
+                                       "FROM seller INNER JOIN department " +
+                                       "ON seller.DepartmentId = department.Id " +
+                                       "WHERE DepartmentId = ? " + "ORDER BY Name");
+        pst.setInt(1, department.getId());
+         rs = pst.executeQuery();
+         List<Seller> list = new ArrayList<>();
+            Map<Integer,Department> map = new HashMap<>();
+       while(rs.next()){
+           Department dep = map.get(rs.getInt("DepartmentId"));
+          if(dep == null){
+               dep = instantiateDepartment(rs);
+               map.put(rs.getInt("DepartmentId"), dep);
+           }
+            
+            Seller seller = instantiateSeller(rs, dep);
+            list.add(seller);
+        }
+        return list;
+        }catch(SQLException ex){
+            System.out.println(" Error na quuery:" +ex.getMessage());
+        }
+        return null;
+        
     }
 
 }

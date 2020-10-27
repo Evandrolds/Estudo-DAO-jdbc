@@ -19,7 +19,7 @@ public class Program {
         Seller seller = sellerDao.findById(4);
         System.out.println(seller);
         
-        System.out.println("\n=== Teste 2: Department FindByDepartment ===");
+        System.out.println("\n === Teste 2: Department FindByDepartment === ");
         Department dep = new Department(2, null);
         List<Seller> list = sellerDao.findByDemarment(dep);
         for (Seller seller1 : list) {

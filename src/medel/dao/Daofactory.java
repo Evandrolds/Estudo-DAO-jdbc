@@ -9,6 +9,6 @@ import model.dao.Impl.SellerDaoJDBC;
 public class Daofactory {
     // Fabrica de Dao
     public static SellerDao createSellerDao(){
-        return new SellerDaoJDBC();
+        return new SellerDaoJDBC(bd.BD.getConnection());
     }
 }

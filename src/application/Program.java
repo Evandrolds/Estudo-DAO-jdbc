@@ -1,30 +1,20 @@
 package application;
 
-import java.text.ParseException;
-import java.util.Date;
+import model.enttities.Seller;
 import medel.dao.Daofactory;
 import medel.dao.SellerDao;
-import model.enttities.Department;
-import model.enttities.Seller;
 
-/**
+
+/*
  *
  * @author Evandro
  */
 public class Program {
 
-    public static void main(String[] args) throws ParseException {
-
-        Department obj = new Department(1, "Books");
-
-        Seller seler = new Seller();
-        seler.setId(21);
-        seler.setName("Bob");
-        seler.setEmail("Bob.seler@hotmail.com");
-        seler.setBirthDate(new Date());
-        seler.setBaseSalary(2500.00);
-        seler.setDepartment(obj);
-        System.out.println(seler);
-        SellerDao sellerDao = Daofactory.createSellerDao();
+    public static void main(String[] args) {
+         SellerDao sellerDao = Daofactory.createSellerDao();
+         System.out.println("===  Teste 1: Seller FindById  === ");
+        Seller seller = sellerDao.findById(4);
+        System.out.println(seller);
     }
 }

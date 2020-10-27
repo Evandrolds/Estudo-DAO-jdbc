@@ -12,32 +12,34 @@ import java.util.Properties;
 public class BD {
 
     // metodos para gerar conexão com Banco de Dados
-    public static Connection conn = null;
+    private static Connection conn = null;
 
     public static Connection getConnection() {
         if (conn == null) {
             try {
                 Properties props = loaderProperties();
-                String url = props.getProperty("dburl");
-                conn = DriverManager.getConnection(url, props);
-            } catch (SQLException e) {
-                throw new Bd_Exception("Connection not found: " + e.getMessage());
+                String path = props.getProperty("dburl");
+                conn = DriverManager.getConnection(path,props);
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
             }
         }
+
         return conn;
     }
 
-    // metodo para garregar as propriedades do arquivo db.properties
+    // metodo para garregar as propriedades do arquivo bd.properties
     private static Properties loaderProperties() {
-        try (FileInputStream fs = new FileInputStream("properties")) {
+        try (FileInputStream fs = new FileInputStream("db.properties")) {
             Properties props = new Properties();
             props.load(fs);
             return props;
         } catch (IOException ex) {
-            throw new Bd_Exception("Error, file not found " + ex.getMessage());
+            throw new Bd_Exception(ex.getMessage());
         }
     }
-                     // fechando a conexão
+    // fechando a conexão
+
     public static void closeConnection() {
         if (conn != null) {
             try {
@@ -47,7 +49,8 @@ public class BD {
             }
         }
     }
-              // feichando a Statement
+    // fechando a Statement
+
     public static void coloseStatement(Statement st) {
         if (st != null) {
 
@@ -61,7 +64,8 @@ public class BD {
         }
 
     }
-                 // feichando a ResultSet
+    // fechando a ResultSet
+
     public static void coloseResulset(ResultSet rs) {
         if (rs != null) {
 

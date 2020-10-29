@@ -4,17 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import medel.dao.DepartmentDao;
-
 import medel.dao.SellerDao;
 import model.enttities.Department;
 import model.enttities.Seller;
@@ -41,23 +37,31 @@ public class SellerDaoJDBC implements SellerDao {
         PreparedStatement pst = null;
 
         try {
-            pst = con.prepareStatement("Insert into seller set (Name,Email,BirthDate,BaseSalary,DepartmentId");
-            pst.setString(1, "Sergio");
-            pst.setString(2, "sergion@hormail.com");
-            pst.setDate(3, new java.sql.Date(sdf.parse("22/08/2000").getTime()));
-            pst.setDouble(4, 2550);
-            pst.setInt(5, 4);
+            pst = con.prepareStatement("Insert into seller (Name,Email,BirthDate,BaseSalary,DepartmentId) Values (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            pst.setString(1, obj.getName());
+            pst.setString(2, obj.getEmail());
+            pst.setDate(3, new java.sql.Date(obj.getBirthDate().getTime()));
+            pst.setDouble(4, obj.getBaseSalary());
+            pst.setInt(5, obj.getDepartment().getId());
 
-            pst.executeQuery();
+            int rowsAfected = pst.executeUpdate();
+            if (rowsAfected > 0) {
+                ResultSet rs = pst.getGeneratedKeys();
+                if (rs.next()) {
+                    int id = rs.getInt(1);
+                    obj.setId(id);
+                }
+                bd.BD.coloseResulset(rs);
+            } else {
+                throw new bd.Bd_Exception("No rows afected");
+            }
 
             System.out.println("Dados Inserido com sucesso!");
         } catch (SQLException ex) {
-            System.out.println("Erro na Inserção de dados!" + ex.getMessage());
-        } catch (ParseException ex) {
-            System.out.println("Erro na Dada " + ex.getMessage());
+            System.out.println(ex.getMessage());
         } finally {
             bd.BD.coloseStatement(pst);
-            bd.BD.closeConnection();
+           
         }
 
     }
@@ -121,7 +125,7 @@ public class SellerDaoJDBC implements SellerDao {
                     + "ORDER BY Name");
             rs = pst.executeQuery();
             List<Seller> list = new ArrayList<>();
-            Map<Integer, Department> map = new Hashtable<>();
+            Map<Integer, Department> map = new HashMap<>();
             while (rs.next()) {
                 Department dep = map.get(rs.getInt("DepartmentId"));
                 if (dep == null) {
